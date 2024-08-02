@@ -21,7 +21,8 @@ This project is a web-based application designed to detect outliers in datasets 
 
 # Usage
 - **Start the Flask Application:** python app.py
-- **Interact with the Web Application
+
+# Interact with the Web Application
 - Home Page (index.html): Provides an overview and options to upload datasets and detect outliers.
 - Detect Outliers Page (detect.html): Allows users to upload a dataset, process it, and detect outliers.
 - About Model Page (about.html): Provides detailed information about the outlier detection model and its implementation.
