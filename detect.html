@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outliers Detector</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-image: url('images.webp');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #buttonContainer {
+            margin-top: 20px;
+        }
+        #selectFileBtn, #loadDataBtn, #detectOutliersBtn {
+            margin-top: 10px;
+            font-size: 18px;
+            border-radius: 30px;
+            padding: 15px 30px;
+            background-color: #050938;
+            color: rgb(210, 199, 199);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #selectFileBtn:hover, #loadDataBtn:hover, #detectOutliersBtn:hover {
+            background-color: #0e3b69;
+        }
+        h1 {
+            font-size: 42px;
+        }
+
+        .bar {
+            display: flex;
+            justify-content: flex-start;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: transparent;
+            padding-left: 18px;
+        }
+
+        .item {
+            display: inline-block;
+            padding: 12px 24px;
+            text-decoration: none;
+            color: rgb(178, 169, 169);
+            margin-right: 20px;
+            transition: background-color 0.3s;
+            font-size: 18px; 
+            border-radius: 8px; 
+        }
+
+        .item:hover {
+            background-color: #0e3b69; 
+        }
+
+        .button {
+            background-color: #050938; 
+            border: none;
+            color: rgb(210, 199, 199);
+            padding: 20px 40px; 
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 27px;
+        }
+
+        .button:hover {
+            background-color: #030303;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <div class="bar card left-align large">
+            <a href="index.html" class="item white">Home</a>
+            <a href="detect.html" class="item hide-small hover-white">Detect Outliers</a>
+            <a href="about_model.html" class="item hide-small hover-white">About model</a>
+        </div>
+    </div>
+    
+    <h1>Outliers Detector</h1>
+    <input type="file" id="fileInput" style="display: none;">
+    <button id="selectFileBtn">Select File</button>
+    <button id="loadDataBtn">Load Data</button>
+    <button id="detectOutliersBtn">Detect Outliers</button>
+
+    <script>
+        var model;
+        fetch('isolation_forest_model.joblib')
+            .then(response => response.arrayBuffer())
+            .then(buffer => {
+                const byteArray = new Uint8Array(buffer);
+                const modelString = String.fromCharCode.apply(null, byteArray);
+                model = JSON.parse(modelString);
+            })
+            .catch(error => console.error('Error loading model:', error));
+
+        var data;
+
+        document.getElementById('selectFileBtn').addEventListener
+        ('click', function()
+         {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('loadDataBtn').addEventListener('click', function()
+         {
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload = function(event)
+             {
+                data = event.target.result;
+                console.log('Data loaded:', data);
+                alert('Data loaded successfully!');
+            };
+            reader.readAsText(file);
+        });
+
+        document.getElementById('detectOutliersBtn').addEventListener('click', function() {
+            console.log('Detect Outliers button clicked');
+            if (!model) {
+                console.error('Model not loaded');
+                return;
+            }
+            if (!data) {
+                console.error('Data not loaded');
+                return;
+            }
+            processData(data);
+        });
+
+        function processData(data) {
+            console.log('Processing data...');
+            var dataString = data.toString();
+            var lines = dataString.split('\n');
+            var parsedData = [];
+            lines.forEach(function(line) {
+                var values = line.split(',');
+                parsedData.push(values);
+            });
+
+            var df = {
+                'Time': [],
+                'V1': [],
+                'V2': [],
+                'V3': [],
+                'V4': [],
+                'V5': [],
+                'V6': [],
+                'V7': [],
+                'V8': [],
+                'V9': [],
+                'V10': [],
+                'V11': [],
+                'V12': [],
+                'V13': [],
+                'V14': [],
+                'V15': [],
+                'V16': [],
+                'V17': [],
+                'V18': [],
+                'V19': [],
+                'V20': [],
+                'V21': [],
+                'V22': [],
+                'V23': [],
+                'V24': [],
+                'V25': [],
+                'V26': [],
+                'V27': [],
+                'V28': [],
+                'Amount': [],
+            };
+
+            parsedData.forEach(function(row) 
+            {
+                df['Time'].push(row[0]);
+                df['V1'].push(row[1]); 
+                df['V2'].push(row[2]); 
+                df['V3'].push(row[3]);
+                df['V4'].push(row[4]);
+                df['V5'].push(row[5]);
+                df['V6'].push(row[6]);
+                df['V7'].push(row[7]);
+                df['V8'].push(row[8]);
+                df['V9'].push(row[9]);
+                df['V10'].push(row[10]);
+                df['V11'].push(row[11]);
+                df['V12'].push(row[12]);
+                df['V13'].push(row[13]);
+                df['V14'].push(row[14]);
+                df['V15'].push(row[15]);
+                df['V16'].push(row[16]);
+                df['V17'].push(row[17]);
+                df['V18'].push(row[18]);
+                df['V19'].push(row[19]);
+                df['V20'].push(row[20]);
+                df['V21'].push(row[21]);
+                df['V22'].push(row[22]);
+                df['V23'].push(row[23]);
+                df['V24'].push(row[24]);
+                df['V25'].push(row[25]);
+                df['V26'].push(row[26]);
+                df['V27'].push(row[27]);
+                df['V28'].push(row[28]);
+                df['Amount'].push(row[29]);
+            });
+
+            var sklearnData = {
+                'Time': df['Time'],
+                'V1': df['V1'],
+                'V2': df['V2'],
+                'V3': df['V3'],
+                'V4': df['V4'],
+                'V5': df['V5'],
+                'V6': df['V6'],
+                'V7': df['V7'],
+                'V8': df['V8'],
+                'V9': df['V9'],
+                'V10': df['V10'],
+                'V11': df['V11'],
+                'V12': df['V12'],
+                'V13': df['V13'],
+                'V14': df['V14'],
+                'V15': df['V15'],
+                'V16': df['V16'],
+                'V17': df['V17'],
+                'V18': df['V18'],
+                'V19': df['V19'],
+                'V20': df['V20'],
+                'V21': df['V21'],
+                'V22': df['V22'],
+                'V23': df['V23'],
+                'V24': df['V24'],
+                'V25': df['V25'],
+                'V26': df['V26'],
+                'V27': df['V27'],
+                'V28': df['V28'],
+                'Amount': df['Amount'],
+            };
+            
+            const predictions = model.predict(sklearnData);
+            
+            var numOutliers = predictions.filter(outlier => outlier === -1).length;
+            console.log("Number of outliers detected:", numOutliers);
+            alert('Number of outliers detected:');
+        }
+    </script>
+</body>
+</html>
