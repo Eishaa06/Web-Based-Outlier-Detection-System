@@ -13,15 +13,15 @@ This project is a web-based application designed to detect outliers in datasets 
 - **JavaScript:** For interactive elements in the web pages.
 
 # Installation
-**1. Clone the Repository:** git clone [repository-url]
-**2. Set Up Python Environment:** Make sure you have Python installed. If not, download and install Python from the (https://www.python.org/downloads/) .<br>
-**3. Install Required Libraries:** pip install pandas scikit-learn joblib
-**4. Prepare the Model:** Run the model_training.py script to train and save the Isolation Forest model. 
+- **Clone the Repository:** git clone [repository-url]
+-**Set Up Python Environment:** Make sure you have Python installed. If not, download and install Python from the (https://www.python.org/downloads/) .<br>
+- **Install Required Libraries:** pip install pandas scikit-learn joblib
+- **Prepare the Model:** Run the model_training.py script to train and save the Isolation Forest model. 
      python model_training.py
 
 # Usage
-**1. Start the Flask Application:** python app.py
-**2. Interact with the Web Application
+- **Start the Flask Application:** python app.py
+- **Interact with the Web Application
 - Home Page (index.html): Provides an overview and options to upload datasets and detect outliers.
 - Detect Outliers Page (detect.html): Allows users to upload a dataset, process it, and detect outliers.
 - About Model Page (about.html): Provides detailed information about the outlier detection model and its implementation.
